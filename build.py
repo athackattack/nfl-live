@@ -3,7 +3,7 @@ R = pathlib.Path(__file__).parent
 L = R / 'logos'
 
 def b64(p, mime):
-    return 'data:' + mime + ';base64,' + base64.b64encode(p.read_bytes()).decode()
+    return f'data:{mime};base64,' + base64.b64encode(p.read_bytes()).decode()
 
 logos = {
     'cbs': b64(L / 'CBS_logo.svg', 'image/svg+xml'),
@@ -13,27 +13,30 @@ logos = {
     'youtube': b64(L / 'YouTube_Logo_2017.svg', 'image/svg+xml'),
     'nfl': b64(L / 'nfl_s.png', 'image/png'),
 }
-# ESPN / ABC / Prime marks are data-URIs carried in the built page (or the NBA source, when present).
-blobs = []
-nba = pathlib.Path('/workspace/nba-scoreboard/league.html')
-if nba.exists():
-    blobs.append(nba.read_text(errors='ignore'))
-built = R / 'index.html'
-if built.exists():
-    blobs.append(built.read_text(errors='ignore'))
-for k in ['espn', 'abc', 'prime']:
-    found = None
-    for blob in blobs:
-        m = re.search(r'"' + k + r'"\s*:\s*"(data:[^"]+)"', blob) or re.search(k + r"\s*:\s*'(data:[^']+)'", blob)
-        if m:
-            found = m.group(1)
-            break
-    if found:
-        logos[k] = found
-    else:
-        print('missing', k)
-js = (R / 'src/app.js').read_text().replace('/*LOGOS*/{}', json.dumps(logos))
-css = (R / 'src/style.css').read_text()
-s = (R / 'src/shell.html').read_text().replace('/*CSS*/', css).replace('/*JS*/', js)
-(R / 'index.html').write_text(s)
-print(len(s), sorted(logos), {k: len(v) for k, v in logos.items()})
+
+def pull(text):
+    m = re.search(r'const LOGO=(\{.*?\});', text)
+    if not m:
+        return {}
+    try:
+        return json.loads(m.group(1))
+    except Exception:
+        return {}
+
+# espn / abc / prime are embedded data URIs. Prefer a sibling NBA build when
+# present, otherwise keep the copies already shipped in index.html.
+for src in (pathlib.Path('/workspace/nba-scoreboard/league.html'), R / 'index.html'):
+    if src.exists():
+        found = pull(src.read_text())
+        for k in ('espn', 'abc', 'prime'):
+            if k not in logos and found.get(k):
+                logos[k] = found[k]
+
+missing = [k for k in ('espn', 'abc', 'prime') if k not in logos]
+if missing:
+    raise SystemExit('missing logos: ' + ', '.join(missing))
+
+js = (R / 'src/app.js').read_text().replace('/*LOGOS*/{}', json.dumps(logos, separators=(',', ':')))
+html = (R / 'src/shell.html').read_text().replace('/*CSS*/', (R / 'src/style.css').read_text()).replace('/*JS*/', js)
+(R / 'index.html').write_text(html)
+print(len(html), sorted(logos))
