@@ -126,13 +126,13 @@ function renderInj(ros){const out=[],seen=new Set();for(const g of (ros&&ros.ath
 function renderDepth(dc,ros){const items=(dc&&(dc.items||dc.depthchart))||[];const idx=rosterMap(ros);if(!items.length)return '<div class="hint">Depth chart unavailable.</div>';
   return items.map(form=>{const pos=form.positions||{};const keys=Object.keys(pos);if(!keys.length)return '';let h=`<div class="grp">${esc(form.name||'Depth')}</div>`;
     for(const k of keys){const v=pos[k];const abbr=(v.position&&v.position.abbreviation)||String(k).toUpperCase();const aths=(v.athletes||[]).slice().sort((a,b)=>(a.rank||9)-(b.rank||9));
-      const names=aths.map(a=>{const id=athId(a.athlete&&a.athlete.$ref)||String(a.id||'');const p=idx[id];const name=(p&&p.displayName)||a.displayName||'Player';return id?`<span class="dpl ${a.rank===1?'st':''}" data-aid="${esc(id)}">${esc(name)}</span>`:`<span>${esc(name)}</span>`}).join('<i>›</i>');
+      const names=aths.map(a=>{const id=athId(a.athlete&&a.athlete.$ref)||String(a.id||'');const p=idx[id];const name=(p&&p.displayName)||a.displayName||'Player';return id?`<span class="dpl${a.rank===1?' lead':''}" data-aid="${esc(id)}">${esc(name)}</span>`:`<span>${esc(name)}</span>`}).join('<i>›</i>');
       h+=`<div class="drow"><b>${esc(abbr)}</b><span>${names}</span></div>`}return h}).join('')+'<div class="hint">Starter listed first. Tap a player for their card.</div>'}
 function renderSplits(d,row){const items=((d&&d.items)||[]).filter(i=>i.displayValue||i.summary);if(items.length)return items.map(i=>`<div class="kv"><span>${esc(i.name||i.type||'Record')}</span><b>${esc(i.displayValue||i.summary)}</b></div>`).join('');
   const bits=[['Overall',row&&row.ov],['Home',row&&row.home],['Road',row&&row.road],['vs. Div.',row&&row.vsdiv],['vs. Conf.',row&&row.vsconf]].filter(x=>x[1]);
   return bits.length?bits.map(([k,v])=>`<div class="kv"><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join(''):'<div class="hint">Splits unavailable.</div>'}
 function renderStandSec(sched,row){const t=sched&&sched.team||{};const bits=[['Record',t.recordSummary||(row?`${row.w}-${row.l}${row.t?'-'+row.t:''}`:'')],['Standing',t.standingSummary||''],['Seed',row&&row.seed<99?'#'+row.seed:''],['Streak',row&&row.strk||''],['PF',row&&row.pf||''],['PA',row&&row.pa||''],['Diff',row&&row.diff||''],['PCT',row&&row.pct||''],['GB',row&&row.gb||'']].filter(x=>x[1]);
-  return bits.length?`<div class="stl">${bits.map(([k,v])=>`<div><small>${esc(k)}</small><b>${esc(v)}</b></div>`).join('')}</div>`:'<div class="hint">Standings detail unavailable.</div>'}
+  return bits.length?bits.map(([k,v])=>`<div class="kv"><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join(''):'<div class="hint">Standings detail unavailable.</div>'}
 /* ---------- fantasy model ---------- */
 // Team: {id,name,owner,rec,rank,total,proj,starters[],bench[],avatar,logo}; Player: {id,name,pos,slot,nfl,pts,proj,live,inj,img,gs}
 function gameInfo(nfl,GM){const g=GM[nfl];if(!g)return {txt:'BYE',rem:0,state:'bye'};const opp=g.teams.find(t=>t.abbr!==nfl),home=g.teams[1].abbr===nfl;const me=g.teams.find(t=>t.abbr===nfl);

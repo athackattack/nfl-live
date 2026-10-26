@@ -181,7 +181,7 @@ html.rm *{animation:none!important;transition:none!important}
 .drow{display:grid;grid-template-columns:54px 1fr;gap:8px;align-items:start;padding:7px 0;border-top:1px solid var(--line);font-size:13px}
 .drow b{color:var(--mut);font-size:12px;padding-top:1px}
 .dpl{cursor:pointer}
-.dpl.st{font-weight:800}
-.dpl:not(.st){color:var(--mut);font-weight:600}
+.dpl.lead{font-weight:800}
+.dpl:not(.lead){color:var(--mut);font-weight:600}
 .drow i{color:var(--mut);font-style:normal;margin:0 4px}
 .tmeta{display:block;font-size:13px;opacity:.9;margin-top:2px}
