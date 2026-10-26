@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="app-version" content="nfl-v1">
-<meta name="theme-color" content="#0b0f17">
+<meta name="app-version" content="nfl-v2">
+<meta name="theme-color" content="#080c14">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -21,13 +21,14 @@
 <style>
 /*CSS*/
 </style>
+<script>try{var t=JSON.parse(localStorage.getItem('nflSettings')||'{}').theme;var light=t==='light'||(t==='auto'&&matchMedia('(prefers-color-scheme: light)').matches);if(light){document.documentElement.classList.add('light');var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content','#f3f5f9')}}catch(e){}</script>
 </head>
 <body>
 <div id="splash"><img src="icon-192.png" alt=""><b>NFL Live</b></div>
 <label style="position:absolute;left:-9999px" aria-hidden="true"><input type="checkbox" switch id="hl"></label>
 <header class="hx">
  <div class="top">
-  <div class="brand"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="32" rx="27" ry="17" transform="rotate(-35 32 32)" fill="#8a4b22"/><path d="M19 45 45 19" stroke="#fff" stroke-width="3" stroke-linecap="round"/><path d="M26 32l6 6M30 28l6 6M34 24l6 6" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg><div class="bt"><h1>NFL <span>Live</span></h1></div></div>
+  <div class="brand"><span class="markwrap"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="32" rx="26" ry="16.5" transform="rotate(-34 32 32)" fill="#7a3e1d"/><path d="M21 43.2 43 21" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M27.2 32.4l4.2 4.2M31.2 28.4l4.2 4.2M35.2 24.4l4.2 4.2" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></span><div class="bt"><h1>NFL <span>Live</span></h1></div></div>
   <div class="tabrow">
    <div class="tabs" role="tablist"><span class="pill"></span><button id="tS" class="on">Scores</button><button id="tT">Standings</button><button id="tF">Fantasy</button></div>
    <button class="sbtn" id="gOpen" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
