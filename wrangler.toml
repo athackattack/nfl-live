@@ -1,0 +1,7 @@
+name = "nfl-live-espn"
+main = "espn-worker.js"
+compatibility_date = "2026-10-01"
+[vars]
+LEAGUE_IDS = "1811214,421893485"
+ALLOWED_ORIGINS = "https://athackattack.github.io,http://localhost:8000"
+SEASON = "2026"
